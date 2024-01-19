@@ -1,14 +1,17 @@
-﻿using desafio_back_end_picpay.Repository.ShopKeeperRepository;
+﻿using desafio_back_end_picpay.Data.Context;
+using desafio_back_end_picpay.Repository.ShopKeeperRepository;
 using desafio_back_end_picpay.Repository.UserRepository;
+using Microsoft.EntityFrameworkCore;
 
 namespace desafio_back_end_picpay.Infrastructure;
 
 public static class InfrastructureModule
 {
-    public static IServiceCollection AddDependencies(this IServiceCollection services)
+    public static IServiceCollection AddDependencies(this IServiceCollection services, string connString)
     {
         services
-            .AddRepositories();
+            .AddRepositories()
+            .AddDbContext(connString);
 
         return services;
     }
@@ -20,6 +23,16 @@ public static class InfrastructureModule
 
         services
             .AddScoped<IUserRepository,UserRepository>();
+
+        return services;
+    }
+
+    public static IServiceCollection AddDbContext(this IServiceCollection services,string connString)
+    {
+        services
+            .AddDbContext<DatabaseContext>(options => 
+                                            options
+                                            .UseSqlServer(connString));
 
         return services;
     }
