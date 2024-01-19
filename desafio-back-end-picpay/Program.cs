@@ -1,8 +1,10 @@
-using desafio_back_end_picpay.Models;
+using desafio_back_end_picpay.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+builder.Services.AddDependencies();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
