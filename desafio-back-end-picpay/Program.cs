@@ -1,10 +1,14 @@
+using desafio_back_end_picpay.Data;
 using desafio_back_end_picpay.Infrastructure;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+string dbConnectionString = builder.Configuration.GetConnectionString("SQLServerConnString")!;
+
 // Add services to the container.
 
-builder.Services.AddDependencies();
+builder.Services.AddDependencies(dbConnectionString ?? "");
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -16,6 +20,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    MigrateDatabase.MigrateDb(dbConnectionString ?? "");
     app.UseSwagger();
     app.UseSwaggerUI();
 }
