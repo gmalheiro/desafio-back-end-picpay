@@ -1,0 +1,10 @@
+CREATE TABLE Users (
+    id INT PRIMARY KEY IDENTITY(1,1),
+    full_name NVARCHAR(100) NOT NULL,
+    email NVARCHAR(MAX) NOT NULL,
+    password NVARCHAR(MAX) NOT NULL,
+    balance FLOAT NOT NULL,
+    cpf NVARCHAR(14) NOT NULL,
+    CONSTRAINT UQ_Email_User UNIQUE (email),
+    CONSTRAINT UQ_CPF UNIQUE (cpf)
+);
