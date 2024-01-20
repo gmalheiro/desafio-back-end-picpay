@@ -1,4 +1,5 @@
-﻿using desafio_back_end_picpay.Models.Generic;
+﻿using desafio_back_end_picpay.Data.Context;
+using desafio_back_end_picpay.Models.Generic;
 using Microsoft.EntityFrameworkCore;
 
 namespace desafio_back_end_picpay.Repository.Generic;
@@ -6,10 +7,14 @@ namespace desafio_back_end_picpay.Repository.Generic;
 public class GenericRepository<T> : IRepository<T> where T : BaseEntity
 {
 
-    private readonly DbContext? _context;
+    private readonly DatabaseContext _context;
+    private readonly DbSet<T>? dataset;
 
-    private DbSet<T>? dataset;
-
+    public GenericRepository(DatabaseContext context)
+    {
+        _context = context;
+        dataset = _context.Set<T>();
+    }
 
     public T Create(T item)
     {
