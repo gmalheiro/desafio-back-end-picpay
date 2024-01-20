@@ -122,7 +122,7 @@ public class GenericRepository<T> : IRepository<T> where T : BaseEntity
     {
         T result;
 
-        result = dataset?.SingleOrDefault(i => i.Equals(item.Id))!;
+        result = dataset?.SingleOrDefault(i => i.Id == item.Id)!;
 
         if (result != null)
         {
