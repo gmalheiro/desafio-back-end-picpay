@@ -7,7 +7,7 @@ namespace desafio_back_end_picpay.Repository.Generic;
 public class GenericRepository<T> : IRepository<T> where T : BaseEntity
 {
 
-    private readonly DatabaseContext _context;
+    protected readonly DatabaseContext _context;
     private readonly DbSet<T>? dataset;
 
     public GenericRepository(DatabaseContext context)
