@@ -1,9 +1,11 @@
 ﻿using desafio_back_end_picpay.Data.Context;
 using desafio_back_end_picpay.Data.DTOs;
+using desafio_back_end_picpay.Exceptions;
 using desafio_back_end_picpay.Models;
 using desafio_back_end_picpay.Repository.UserRepository;
 using desafio_back_end_picpay.Utils;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 using System.Data;
 
 namespace desafio_back_end_picpay.Business;
@@ -21,18 +23,26 @@ public class UserBusiness : IUserBusiness
 
     public UserDTO Create(UserDTO user)
     {
-        var userToBeCreated = new User()
+        try
         {
-            FullName = user.FullName,
-            Email = user.Email,
-            Password = user.Password,
-            Balance = user.Balance,
-            Cpf = UtilsClass.RemoveSpecialCharacters(user.CPF),
-        };
+            var userToBeCreated = new User()
+            {
+                FullName = user.FullName,
+                Email = user.Email,
+                Password = user.Password,
+                Balance = user.Balance,
+                Cpf = UtilsClass.RemoveSpecialCharacters(user.CPF),
+            };
 
-        _repository.Create(userToBeCreated);
+            _repository.Create(userToBeCreated);
 
-        return user;
+            return user;
+        }
+        catch (Exception)
+        {
+
+            throw;
+        }
     }
 
     public UserDTO Delete(int id)
@@ -86,27 +96,65 @@ public class UserBusiness : IUserBusiness
 
     public UserDTO GetById(int id)
     {
-        var userInDb = _repository.FindById(id);
+        try
+        {
+            var userInDb = _repository.FindById(id);
 
-        var user = new UserDTO
-        (
-            userInDb?.FullName ?? "",
-            userInDb?.Email ?? "",
-            userInDb?.Password ?? "",
-            userInDb?.Balance ?? 0,
-            UtilsClass.FormatCPF(userInDb?.Cpf ?? "")
-        );
+            if (userInDb != null)
+            {
+                var user = new UserDTO
+                (
+                    userInDb?.FullName ?? "",
+                    userInDb?.Email ?? "",
+                    userInDb?.Password ?? "",
+                    userInDb?.Balance ?? 0,
+                    UtilsClass.FormatCPF(userInDb?.Cpf ?? "")
+                );
 
-        return user;
-
+                return user;
+            }
+            else
+            {
+                throw new NotFoundException($"User with ID {id} not found");
+            }
+        }
+        catch (Exception e)
+        {
+            throw new NotFoundException($"An error occurred while fetching the user: {e.Message}");
+        }
     }
+
 
     public UserDTO Update(UserDTO user)
     {
-        var userEntity = _repository.FindUserByName(user.FullName);
+        try
+        {
+            var userEntity = _repository.FindUserByName(user.FullName);
 
-        _repository.Update(userEntity);
+            if (userEntity == null)
+            {
+                throw new NotFoundException($"User with name {user.FullName} not found");
+            }
 
-        return user;
+            userEntity.FullName = user.FullName;
+            userEntity.Email = user.Email;
+            userEntity.Password = user.Password;
+            userEntity.Balance = user.Balance;
+            userEntity.Cpf = UtilsClass.RemoveSpecialCharacters(user.CPF);
+
+            _repository.Update(userEntity);
+
+            return user;
+        }
+        catch (NotFoundException)
+        {
+            throw;
+        }
+        catch (Exception e)
+        {
+            Log.Error($"An error occurred while updating the user: {e}");
+            throw new NotFoundException("An error occurred while updating the user.");
+        }
     }
+
 }
