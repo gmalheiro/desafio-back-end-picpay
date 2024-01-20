@@ -4,7 +4,7 @@ using desafio_back_end_picpay.Models.Generic;
 
 namespace desafio_back_end_picpay.Models;
 
-[Table("user")]
+[Table("users")]
 public class User : BaseEntity
 {
     [Required]
