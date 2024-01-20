@@ -55,25 +55,9 @@ public class UserBusiness : IUserBusiness
 
     public List<UserDTO> FindAll()
     {
-
-        //var item = new List<User>();
-        //try
-        //{
-
-        //    item = _dbContext.Users;
-
-        //    return item == null ? new List<T>() : item;
-        //}
-        //catch (Exception e)
-        //{
-
-        //    Console.WriteLine(e.Message);
-        //    return item == null ? new List<T>() : item;
-        //}
-
         var users = new List<UserDTO>();
 
-        var usersInDB = _dbContext.Users.ToList(); ;
+        var usersInDB = _repository.FindAll(); 
 
         foreach (var userInDB in usersInDB)
         {
