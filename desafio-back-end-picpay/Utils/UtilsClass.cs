@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using Microsoft.IdentityModel.Tokens;
+using System.Text.RegularExpressions;
 
 namespace desafio_back_end_picpay.Utils;
 
@@ -11,12 +12,16 @@ namespace desafio_back_end_picpay.Utils;
 
     public static string FormatCPF(string input)
     {
-        if (input.Length != 11 || !IsNumeric(input))
+        if (!input.IsNullOrEmpty())
         {
-            throw new ArgumentException("Invalid CPF format");
-        }
 
-        return $"{input.Substring(0, 3)}.{input.Substring(3, 3)}.{input.Substring(6, 3)}-{input.Substring(9)}";
+            if (input.Length != 11 || !IsNumeric(input))
+            {
+                throw new ArgumentException("Invalid CPF format");
+            }
+            return $"{input.Substring(0, 3)}.{input.Substring(3, 3)}.{input.Substring(6, 3)}-{input.Substring(9)}";
+        }
+        throw new Exception("Error when formatting CPF. CPF is null or empty");
     }
 
     static string FormatCNPJ(string input)
