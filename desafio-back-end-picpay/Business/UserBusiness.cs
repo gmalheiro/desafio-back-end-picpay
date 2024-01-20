@@ -76,6 +76,14 @@ public class UserBusiness : IUserBusiness
         return users;
     }
 
+    public User FindUserByName(string name)
+    {
+        var userInDb = _repository.FindUserByName(name);
+
+        return userInDb;
+
+    }
+
     public UserDTO GetById(int id)
     {
         var userInDb = _repository.FindById(id);
@@ -95,16 +103,9 @@ public class UserBusiness : IUserBusiness
 
     public UserDTO Update(UserDTO user)
     {
-        var userToBeSaved = new User()
-        {
-            FullName = user.FullName,
-            Email = user.Email,
-            Password = user.Password,
-            Balance = user.Balance,
-            Cpf = UtilsClass.RemoveSpecialCharacters(user.CPF)
-        };
+        var userEntity = _repository.FindUserByName(user.FullName);
 
-        _repository.Update(userToBeSaved);
+        _repository.Update(userEntity);
 
         return user;
     }

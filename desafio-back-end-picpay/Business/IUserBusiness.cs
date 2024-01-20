@@ -10,4 +10,5 @@ public interface IUserBusiness
     UserDTO Create(UserDTO user);
     UserDTO Update(UserDTO user); 
     UserDTO Delete(int id);
+    User FindUserByName(string  name);
 }
