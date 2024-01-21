@@ -4,5 +4,6 @@ CREATE TABLE Users (
     email NVARCHAR(125) NOT NULL UNIQUE, 
     password NVARCHAR(MAX) NOT NULL,
     balance FLOAT NOT NULL,
-    cpf NVARCHAR(14) NOT NULL UNIQUE
+    document_number NVARCHAR(18) NOT NULL UNIQUE,
+    is_pessoa_fisica BIT NOT NULL
 );
