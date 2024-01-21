@@ -1,4 +1,5 @@
 ﻿using desafio_back_end_picpay.Business;
+using desafio_back_end_picpay.Business.TransactionBusiness;
 using desafio_back_end_picpay.Data.Context;
 using desafio_back_end_picpay.Repository.UserRepository;
 using Microsoft.EntityFrameworkCore;
@@ -38,7 +39,8 @@ public static class InfrastructureModule
     public static IServiceCollection AddBusiness(this IServiceCollection services)
     {
         services
-            .AddScoped<IUserBusiness,UserBusiness>();
+            .AddScoped<IUserBusiness,UserBusiness>()
+            .AddScoped<ITransactionBusiness,TransactionBusiness>();
 
         return services;
     }
