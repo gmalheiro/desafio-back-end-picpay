@@ -16,8 +16,9 @@ public class UserRepository : GenericRepository<User>, IUserRepository
     public User FindUserByName(string name)
     {
         var user = _context.Users.FirstOrDefault(u => u.FullName == name );
+        
         if (user is null)
-            return new User();
+            return null!;
         return user;
     }
 }
