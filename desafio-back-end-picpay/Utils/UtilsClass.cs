@@ -11,21 +11,29 @@ namespace desafio_back_end_picpay.Utils;
         return Regex.Replace(input, "[^0-9]", "");
     }
 
+    public static bool DetectSpecialCharacters(string input)
+    {
+        string pattern = @"[^A-Za-z0-9]|[\.\-/]";
+
+        return Regex.IsMatch(input, pattern);
+    }
+
     public static string FormatCPF(string input)
     {
         if (!input.IsNullOrEmpty())
         {
 
-            if (input.Length != 11 || !IsNumeric(input))
+            if (input.Length < 11 || input.Length >= 14)
             {
                 throw new WrongDocumentNumberException("Invalid CPF format");
             }
+
             return $"{input.Substring(0, 3)}.{input.Substring(3, 3)}.{input.Substring(6, 3)}-{input.Substring(9)}";
         }
         throw new WrongDocumentNumberException("Error when formatting CPF. CPF is null or empty");
     }
 
-    static string FormatCNPJ(string input)
+    public static string FormatCNPJ(string input)
     {
         if (input.Length != 14 || !IsNumeric(input))
         {
