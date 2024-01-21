@@ -14,6 +14,8 @@ public record UserDTO
     [Required]
     double Balance,
     [Required]
-    [StringLength(14,MinimumLength = 11)]
-    string CPF
+    [Length(14, 18)]
+    string DocumentNumber,
+    [Required]
+    bool IsPessoaFisica
 );
