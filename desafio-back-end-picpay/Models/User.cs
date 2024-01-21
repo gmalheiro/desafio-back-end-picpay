@@ -8,7 +8,9 @@ namespace desafio_back_end_picpay.Models;
 public class User : BaseEntity
 {
     [Required]
-    [StringLength(14,MinimumLength = 11)]
-    [Column("cpf")]
-    public string? Cpf { get; set; }
+    [Length(14, 18)]
+    [Column("document_number")]
+    public string? DocumentNumber { get; set; }
+    [Column("is_pessoa_fisica")]
+    public bool IsPessoaFisica { get; set;}
 }
