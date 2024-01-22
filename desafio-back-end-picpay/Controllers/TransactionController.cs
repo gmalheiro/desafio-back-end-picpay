@@ -21,9 +21,10 @@ public class TransactionController : ControllerBase
     [ProducesResponseType(400)]
     [ProducesResponseType(401)]
     [ProducesResponseType(404)]
-    public IActionResult Post([FromBody] TransactionDTO paymentInfo)
+    public async Task<IActionResult> Post([FromBody] TransactionDTO paymentInfo)
     {
-        return Ok(_transactionBusiness.Payment(paymentInfo));
+        var response = await _transactionBusiness.Payment(paymentInfo);
+        return Ok(response);
     }
 
 }
