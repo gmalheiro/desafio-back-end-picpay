@@ -21,4 +21,13 @@ public class UserRepository : GenericRepository<User>, IUserRepository
             return null!;
         return user;
     }
+
+    public void UpdateBalance(int id, double balance)
+    {
+        var userToBeUpdated = _context.Users.FirstOrDefault(u => u.Id == id);
+        
+        userToBeUpdated!.Balance = balance;
+
+        _context.SaveChanges();
+    }
 }
