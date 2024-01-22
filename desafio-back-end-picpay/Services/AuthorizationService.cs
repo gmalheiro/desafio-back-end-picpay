@@ -5,9 +5,11 @@ namespace desafio_back_end_picpay.Services;
 
 public static class AuthorizationService
 {
+    private static readonly HttpClient client = new HttpClient();
+
     public static async Task<bool> CallAuthorizationService()
     {
-        using (HttpClient client = new HttpClient())
+        using (client)
         {
             try
             {
