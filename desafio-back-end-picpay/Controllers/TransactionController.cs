@@ -17,13 +17,13 @@ public class TransactionController : ControllerBase
     }
 
     [HttpPost("transaction")]
-    [ProducesResponseType(typeof(TransactionDTO), 200)]
+    [ProducesResponseType(typeof(TransactionStatus), 200)]
     [ProducesResponseType(400)]
     [ProducesResponseType(401)]
     [ProducesResponseType(404)]
     public IActionResult Post([FromBody] TransactionDTO paymentInfo)
     {
-        return Ok(paymentInfo);
+        return Ok(_transactionBusiness.Payment(paymentInfo));
     }
 
 }
