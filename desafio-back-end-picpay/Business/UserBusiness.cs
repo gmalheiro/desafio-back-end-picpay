@@ -145,7 +145,8 @@ public class UserBusiness : IUserBusiness
                     userInDb?.Password ?? "",
                     userInDb?.Balance ?? 0,
                     userDocument,
-                    userInDb?.IsPessoaFisica ?? true
+                    userInDb?.IsPessoaFisica ?? true,
+                    userInDb?.Id ?? 0
                 );
 
                 return user;

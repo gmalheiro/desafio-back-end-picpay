@@ -1,5 +1,6 @@
 ﻿using desafio_back_end_picpay.Business;
 using desafio_back_end_picpay.Data.DTOs;
+using desafio_back_end_picpay.Hypermedia.Filters;
 using Microsoft.AspNetCore.Mvc;
 
 namespace desafio_back_end_picpay.Controllers;
@@ -20,6 +21,7 @@ public class UserController : ControllerBase
     [ProducesResponseType(204)]
     [ProducesResponseType(400)]
     [ProducesResponseType(401)]
+    [TypeFilter(typeof(HyperMediaFilter))]
     public IActionResult FindAll()
     {
         var users = _business.FindAll();
@@ -31,6 +33,7 @@ public class UserController : ControllerBase
     [ProducesResponseType(204)]
     [ProducesResponseType(400)]
     [ProducesResponseType(401)]
+    [TypeFilter(typeof(HyperMediaFilter))]
     public IActionResult FindById([FromRoute]int id)
     {
         var person = _business.GetById(id);

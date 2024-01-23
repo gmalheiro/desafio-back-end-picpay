@@ -1,6 +1,8 @@
 ﻿using desafio_back_end_picpay.Business;
 using desafio_back_end_picpay.Business.TransactionBusiness;
 using desafio_back_end_picpay.Data.Context;
+using desafio_back_end_picpay.Hypermedia.Enricher;
+using desafio_back_end_picpay.Hypermedia.Filters;
 using desafio_back_end_picpay.Repository.UserRepository;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,7 +15,8 @@ public static class InfrastructureModule
         services
             .AddRepositories()
             .AddDbContext(connString)
-            .AddBusiness();
+            .AddBusiness()
+            .AddHyperMedia();
 
         return services;
     }
@@ -41,6 +44,17 @@ public static class InfrastructureModule
         services
             .AddScoped<IUserBusiness,UserBusiness>()
             .AddScoped<ITransactionBusiness,TransactionBusiness>();
+
+        return services;
+    }
+
+    public static IServiceCollection AddHyperMedia(this IServiceCollection services)
+    {
+        var filterOptions = new HyperMediaFilterOptions();
+
+        filterOptions.ContentResponseEnricherList.Add(new UserEnricher());
+
+        services.AddSingleton(filterOptions);
 
         return services;
     }
