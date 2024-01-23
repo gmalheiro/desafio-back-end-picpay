@@ -55,8 +55,7 @@ public class UserEnricher : ContentResponseEnricher<UserDTO>
         lock (this)
         {
             var url = new { controller = path, id };
-            var links = new StringBuilder(urlHelper.Link("DefaultApi", url)).Replace("%2F", "/").ToString();
-            return links;
+            return new StringBuilder(urlHelper.Link("DefaultApi", url)).Replace("%2F", "/").ToString(); 
         };
     }
 }
